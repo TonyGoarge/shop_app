@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "326327924686",
+    "project_id": "udemy-corse-b68b4",
+    "storage_bucket": "udemy-corse-b68b4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:326327924686:android:fdf2c27adef79821a4dd9f",
+        "android_client_info": {
+          "package_name": "com.example.shop_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "326327924686-l2g0f12gr91oaeii1je0sq2pub9dj3gg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.shop_app",
+            "certificate_hash": "d1f4cc57002dcb27d0678eab7832f118bffffb23"
+          }
+        },
+        {
+          "client_id": "326327924686-9hun1d5q8pps1nviqlbdvsq37mmm42ik.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJio90khGkhbOWUkoDCwQd4ll8iCPJW54"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "326327924686-9hun1d5q8pps1nviqlbdvsq37mmm42ik.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
