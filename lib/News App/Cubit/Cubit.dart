@@ -59,6 +59,15 @@ if(index==2)
   }
 
   List<dynamic> business = [];
+  // List<bool> businessSelectedItem = [];
+  int selectedbusinessitem = 0;
+  bool isDesktop =false;
+
+  void setDesktop(bool value)
+  {
+    isDesktop = value;
+    emit(NewsSetDesktoptate());
+  }
 
   void getBusinessData()
   {
@@ -68,13 +77,16 @@ if(index==2)
       url: 'v2/top-headlines',
       query:
       {
-        'country': 'eg',
+        'country': 'us',
         'category': 'business',
-        'apiKey': 'de05bd04e2fa43ada6eca1b40602cb1a',
+        'apiKey': 'f9719cdb9dd94ea499f35af179fc1e7c',
       },
     ).then((value) {
       // print(value.data.toString());
       business = value.data['articles'];
+      // business.forEach((element) {
+      //   businessSelectedItem.add(false);
+      // });
       print(business);
       emit(NewsGetBusinessSuccesState());
     }).catchError((error) {
@@ -82,6 +94,24 @@ if(index==2)
       emit(NewsGetBusinessErrorState(error.toString()));
     });
   }
+
+  void SelectBusiness(index)
+  {
+    // for (int i = 0 ; i< businessSelectedItem.length ;i++)
+    //   {
+    //     if(i ==index) {
+    //       businessSelectedItem[i] = true;
+    //     } else {
+    //       businessSelectedItem[i] = false;
+    //     }
+    //   }
+
+    selectedbusinessitem = index;
+    emit(NewsSelectedBusinessItemState());
+  }
+
+
+
 
   List<dynamic> Sports = [];
 
@@ -95,9 +125,9 @@ if(index==2)
           url: 'v2/top-headlines',
           query:
           {
-            'country': 'eg',
+            'country': 'us',
             'category': 'sports',
-            'apiKey': 'de05bd04e2fa43ada6eca1b40602cb1a',
+            'apiKey': 'f9719cdb9dd94ea499f35af179fc1e7c',
           },
         ).then((value) {
           // print(value.data.toString());
@@ -115,6 +145,8 @@ if(index==2)
 
   }
 
+
+
   List<dynamic> Sciences = [];
 
   void getSciencesData()
@@ -126,9 +158,9 @@ if(index==2)
           url: 'v2/top-headlines',
           query:
           {
-            'country': 'eg',
+            'country': 'us',
             'category': 'science',
-            'apiKey': 'de05bd04e2fa43ada6eca1b40602cb1a',
+            'apiKey': 'f9719cdb9dd94ea499f35af179fc1e7c',
           },
         ).then((value) {
           // print(value.data.toString());
@@ -160,7 +192,7 @@ if(index==2)
         query:
         {
           'q': '$value',
-          'apiKey': 'de05bd04e2fa43ada6eca1b40602cb1a',
+          'apiKey': 'f9719cdb9dd94ea499f35af179fc1e7c',
         },
       ).then((value)
       {

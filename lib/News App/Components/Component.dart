@@ -8,120 +8,71 @@ import 'package:shop_app/News%20App/Styles/Colors.dart';
 import 'package:shop_app/News%20App/Styles/iconBroken.dart';
 import 'package:shop_app/Shop%20App/Cubit/cubit_Shopapp.dart';
 
-Widget BulidArticalItem(articles,context) => InkWell(
-  onTap: ()
-  {
-    NavigatorTo(context, WebViewScreen(articles['url']));
-  },
+import '../Cubit/Cubit.dart';
 
-  child:   Padding(
+Widget BulidArticalItem(articles,context,index) => Container(
+  color: NewsCubit.get(context).selectedbusinessitem == index  && NewsCubit.get(context).isDesktop ? Colors.grey[200] : null ,
+  child:   InkWell(
 
-    padding: const EdgeInsets.all(20.0),
+    onTap: ()
 
-    child: Row(
+    {
 
-      children: [
+      // NavigatorTo(context, WebViewScreen(articles['url']));
+      NewsCubit.get(context).SelectBusiness(index);
 
-        Container(
-
-          height: 120.0,
-
-          width: 120.0,
-
-          decoration: BoxDecoration(
-
-
-
-              borderRadius: BorderRadius.circular(10.0),
-
-
-
-              image:articles['urlToImage'] !=null ? DecorationImage(
-
-
-
-                image: NetworkImage(
-
-                    '${articles['urlToImage']}'
-
-                ),
-
-                fit: BoxFit.cover,
-
-              ): const DecorationImage(
-
-                image: NetworkImage(
-
-                    'https://icon-library.com/images/no-image-available-icon/no-image-available-icon-6.jpg'
-
-                ),
-
-                fit: BoxFit.cover,
-
-              ),
-
-          ),
-
-        ),
-
-        SizedBox(
-
-          width: 13.0,
-
-        ),
-
-        Expanded(
-
-
-
-          child: Container(
-
+    },
+    child:   Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Row(
+        children: [
+          Container(
             height: 120.0,
-
-            child: Column(
-
-              crossAxisAlignment: CrossAxisAlignment.start,
-
-              mainAxisAlignment: MainAxisAlignment.start,
-
-              children: [
-
-                Expanded(
-
-                    child: Text('${articles['title']}',
-
-                      style:Theme.of(context).textTheme.bodyText1,
-
-                      maxLines: 3,
-
-                      overflow: TextOverflow.ellipsis,
-
-                    ),
-
-                ),
-
-                Text('${articles['publishedAt']}',
-
-                  style: TextStyle(
-
-                    color: Colors.grey,
-
+            width: 120.0,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                image:articles['urlToImage'] !=null ? DecorationImage(
+                  image: NetworkImage(
+                      '${articles['urlToImage']}'
                   ),
-
+                  fit: BoxFit.cover,
+                ): const DecorationImage(
+                  image: NetworkImage(
+                      'https://icon-library.com/images/no-image-available-icon/no-image-available-icon-6.jpg'
+                  ),
+                  fit: BoxFit.cover,
                 ),
-
-              ],
-
             ),
-
           ),
-
-        ),
-
-      ],
-
+          SizedBox(
+            width: 13.0,
+          ),
+          Expanded(
+            child: Container(
+              height: 120.0,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Expanded(
+                      child: Text('${articles['title']}',
+                        style:Theme.of(context).textTheme.bodyText1,
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                  ),
+                  Text('${articles['publishedAt']}',
+                    style: TextStyle(
+                      color: Colors.grey,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     ),
-
   ),
 );
 
@@ -148,7 +99,7 @@ Widget articleBuilder(list,context, {isSearch=false})=>  ConditionalBuilder(
   builder: (context)=>
       ListView.separated(
         physics: BouncingScrollPhysics(),
-        itemBuilder: (context,index)=>BulidArticalItem(list[index],context),
+        itemBuilder: (context,index)=>BulidArticalItem(list[index],context, index),
         separatorBuilder: (context,index)=>MyDivider(),
         itemCount:list.length,),
   fallback:(context)=>isSearch? Container():Center(child: CircularProgressIndicator()),

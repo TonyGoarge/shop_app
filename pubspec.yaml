@@ -56,6 +56,8 @@ dependencies:
   provider: ^6.0.5
   animated_text_kit: ^4.2.2
   http: ^0.13.5
+  desktop_window: ^0.4.0
+  responsive_builder: ^0.4.1
 
 
 

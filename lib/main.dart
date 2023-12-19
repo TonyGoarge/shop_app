@@ -1,9 +1,13 @@
+import 'dart:io';
+
+import 'package:desktop_window/desktop_window.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:shop_app/News%20App/Components/Component.dart';
 import 'package:shop_app/News%20App/Components/Constant.dart';
 import 'package:shop_app/News%20App/News_layout.dart';
@@ -27,51 +31,58 @@ import 'News App/Styles/Themes.dart';
 import 'Shop App/OnBoarding/On_Boarding Screen.dart';
 import 'delivry food/screen/food_layout.dart';
 
+// Future<void>firebaseMessagingBackGroundHander(RemoteMessage message)async
+// {
+//
+//   print('on background message');
+//   print(message.data.toString());
+//   ShowToast(text: 'on background message', state: ToastStates.SUCCESS);
+// }
 
-Future<void>firebaseMessagingBackGroundHander(RemoteMessage message)async
-{
-
-  print('on background message');
-  print(message.data.toString());
-  ShowToast(text: 'on background message', state: ToastStates.SUCCESS);
-}
-
-void main()async
-{
-
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  var token = await FirebaseMessaging.instance.getToken();
-  print("///////// "'$token');
 
-  //forground FCM
-  FirebaseMessaging.onMessage.listen((event)     //كدا app مفتوح  وانت شغال بالفعل عليه
-  {
-  print(event.data.toString());
-  ShowToast(text: 'on message', state: ToastStates.SUCCESS);
-  });
-
-  //when click on notification to open app
-  FirebaseMessaging.onMessageOpenedApp .listen((event)   // app مفتوح بس في background
-  {
-  print(event.data.toString());
-  ShowToast(text: 'on message opened app', state: ToastStates.SUCCESS);
-
-  });
+  //set min width and height on app
+  //if (Platform.isWindows)
+  // {
+  //   await DesktopWindow.setMinWindowSize(
+  //     Size(
+  //       650.0,
+  //       650.0,
+  //     ),
+  //   );
+  // }
+  // await Firebase.initializeApp();
+  // var token = await FirebaseMessaging.instance.getToken();
+  // print("///////// "'$token');
+  //
+  // //forground FCM
+  // FirebaseMessaging.onMessage.listen((event)     //كدا app مفتوح  وانت شغال بالفعل عليه
+  // {
+  // print(event.data.toString());
+  // ShowToast(text: 'on message', state: ToastStates.SUCCESS);
+  // });
+  //
+  // //when click on notification to open app
+  // FirebaseMessaging.onMessageOpenedApp .listen((event)   // app مفتوح بس في background
+  // {
+  // print(event.data.toString());
+  // ShowToast(text: 'on message opened app', state: ToastStates.SUCCESS);
+  //
+  // });
 
   //background  FCM
-  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackGroundHander);
-  
+  // FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackGroundHander);
+
   Bloc.observer = MyBlocObserver();
   DioHelper.init();
   await CachHelper.init();
-  bool? isDark=CachHelper.getData(key:'isDark');
+  bool? isDark = CachHelper.getData(key: 'isDark');
   Widget widget;
-  bool? onBoarding=CachHelper.getData(key:'onBoarding');
-   // token=CachHelper.getData(key:'token');
-   uId=CachHelper.getData(key:'uId');
+  bool? onBoarding = CachHelper.getData(key: 'onBoarding');
+  // token=CachHelper.getData(key:'token');
+  uId = CachHelper.getData(key: 'uId');
   // print(token);
-
 
 //  if(onBoarding !=null)      //كدا انا عديت من boarding
 //    {
@@ -91,20 +102,13 @@ void main()async
 // widget=OnBoardingScreen();
 // }
 
-
-
-
- if(uId != null)        //    بقوله طول ما انت معاك uid انت في sociallayout حصل مشكل ارجع لل loginscreen
-   {
-     widget=sociallayout();
-
-   }
- else
-   {
-     widget=SocialLoginScreen();
-   }
-
-
+  if (uId !=
+      null) //    بقوله طول ما انت معاك uid انت في sociallayout حصل مشكل ارجع لل loginscreen
+  {
+    widget = sociallayout();
+  } else {
+    widget = SocialLoginScreen();
+  }
 
   runApp(MyApp(
     isDark: isDark,
@@ -118,9 +122,7 @@ void main()async
 
 // class MyApp
 
-class MyApp extends StatelessWidget
-{
-
+class MyApp extends StatelessWidget {
   // @override
   // void initState(){
   //    super.initState();
@@ -130,62 +132,72 @@ class MyApp extends StatelessWidget
   // }
   // constructor
   // build
-final bool? isDark;
+  final bool? isDark;
+
 // final Widget StartWidget;
-final Widget BegainWidget;
-MyApp({
-  this.isDark,
-  // required this.StartWidget,
-  required this.BegainWidget,
-});
+  final Widget BegainWidget;
 
-
+  MyApp({
+    this.isDark,
+    // required this.StartWidget,
+    required this.BegainWidget,
+  });
 
   @override
-  Widget build(BuildContext context)
-  {
+  Widget build(BuildContext context) {
     return MultiProvider(
-      providers:
-      [
-        ChangeNotifierProvider(create: (_) => ModelsProvider(),),
-
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => ModelsProvider(),
+        ),
       ],
       child: MultiBlocProvider(
-        providers:
-        [
-          BlocProvider(create: (context) => NewsCubit()
-            ..getBusinessData()
-            ..getSportsData()
-            ..getSciencesData(),),
-          BlocProvider(create: (context)=>DarkCubit()..changeAppMode(
-            fromShared:isDark,
-          ),),
-
-          BlocProvider(create: (context)=>ShopCubit()..getHomeData()..getCategories()..getFavorites()..getUserData(),
+        providers: [
+          BlocProvider(
+            create: (context) => NewsCubit()
+              ..getBusinessData()
+              ..getSportsData()
+              ..getSciencesData(),
           ),
-          BlocProvider(create: (context)=>SocialCubit()..getUserData()..getposts()..getUsers(),
+          BlocProvider(
+            create: (context) => DarkCubit()
+              ..changeAppMode(
+                fromShared: isDark,
+              ),
+          ),
+
+          BlocProvider(
+            create: (context) => ShopCubit()
+              ..getHomeData()
+              ..getCategories()
+              ..getFavorites()
+              ..getUserData(),
+          ),
+          BlocProvider(
+            create: (context) => SocialCubit()
+              ..getUserData()
+              ..getposts()
+              ..getUsers(),
             //..getUsers(),
           ),
-
 
           // BlocProvider(create: (context)=>foodCubit(),
           // ),
         ],
-        child: BlocConsumer<DarkCubit,NewsStates>(
-          listener: (context,state){},
-          builder: (context,state){
-          return  MaterialApp(
+        child: BlocConsumer<DarkCubit, NewsStates>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            return MaterialApp(
               debugShowCheckedModeBanner: false,
-              theme:lightTheme,
+              theme: lightTheme,
 
-
-
-              darkTheme:darkTheme,
-            // themeMode:ShopDarkCubit.get(context).isDark? ThemeMode.dark : ThemeMode.light,
-            themeMode:DarkCubit.get(context).isDark? ThemeMode.dark :ThemeMode.light,
-              home:BegainWidget,
+              darkTheme: darkTheme,
+              // themeMode:ShopDarkCubit.get(context).isDark? ThemeMode.dark : ThemeMode.light,
+              themeMode: DarkCubit.get(context).isDark
+                  ? ThemeMode.dark
+                  : ThemeMode.light,
+              home: NewsLayout(),
             );
-
           },
         ),
       ),
